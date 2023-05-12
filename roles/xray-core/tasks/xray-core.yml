@@ -1,0 +1,84 @@
+- name: create xray group
+  ansible.builtin.group:
+    name: "{{ xray_group }}"
+
+- name: create xray user
+  ansible.builtin.user:
+    name: "{{ xray_user }}"
+    group: "{{ xray_group }}"
+    createhome: no
+
+- name: create assets and config directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+  with_items:
+    - "{{ xray_assets_dir }}"
+    - "{{ xray_config_dir }}"
+
+- name: create logs directory
+  ansible.builtin.file:
+    path: "{{ xray_logs_dir }}"
+    state: directory
+    owner: "{{ xray_user }}"
+    group: "{{ xray_group }}"
+
+- name: create initial config file
+  ansible.builtin.copy:
+    content: "{}"
+    dest: "{{ xray_config_file }}"
+    force: no
+
+- name: install xray
+  quera.github.install_from_github:
+    repo: XTLS/Xray-core
+    asset_regex: Xray-.*\.zip
+    asset_arch_mapping:
+      amd64: "64"
+    version_command: xray --version
+    move_rules:
+      - src_regex: xray
+        dst: /usr/local/bin
+        mode: 0755
+      - src_regex: .*\.dat
+        dst: "{{ xray_assets_dir }}"
+        mode: 0644
+  notify:
+    - restart xray service
+
+- name: install latest iran.dat
+  quera.github.install_from_github:
+    repo: SamadiPour/iran-hosted-domains
+    asset_regex: iran.dat
+    version_file: "{{ xray_assets_dir }}/iran.dat.version"
+    move_rules:
+      - src_regex: iran.dat
+        dst: "{{ xray_assets_dir }}"
+  notify:
+    - restart xray service
+
+- name: install xray systemd service
+  ansible.builtin.template:
+    src: xray.service
+    dest: /etc/systemd/system/xray.service
+  notify:
+    - restart xray service
+
+- name: enable xray service
+  ansible.builtin.systemd:
+    name: xray
+    enabled: yes
+    daemon_reload: yes
+
+- name: configure xray
+  ansible.builtin.template:
+    src: xray.config.json
+    dest: "{{ xray_config_file }}"
+  tags:
+    - xray-core-config
+  notify:
+    - restart xray service
+
+- meta: flush_handlers

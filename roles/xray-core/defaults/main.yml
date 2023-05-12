@@ -1,0 +1,7 @@
+xray_user: xray
+xray_group: xray
+xray_assets_dir: /usr/local/share/xray
+xray_config_dir: /usr/local/etc/xray
+xray_logs_dir: /var/log/xray
+xray_config_file: "{{ xray_config_dir }}/config.json"
+xray_config: {}

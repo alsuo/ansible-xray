@@ -1,0 +1,5 @@
+- name: restart xray service
+  become: yes
+  ansible.builtin.service:
+    name: xray
+    state: restarted
