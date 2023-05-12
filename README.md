@@ -3,7 +3,7 @@
 ## Installation
 
 ```shell
-ansible-galaxy collection install git+https://github.com/alsuo/ansible-xray-core.git
+ansible-galaxy collection install git+https://github.com/alsuo/ansible-xray.git
 ```
 
 ## Role: `alsuo.xray.xray-core`
