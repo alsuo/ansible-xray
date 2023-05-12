@@ -17,6 +17,9 @@ Example playbook:
 ```yaml
 - hosts: yourhost
 
+  collections:
+    - alsuo.xray
+
   vars:
     xray_config:
       log:
@@ -33,7 +36,7 @@ Example playbook:
           - ... your routing rules here ...
 
   roles:
-    - alsuo.xray.xray-core
+    - xray-core
 ```
 
 ### Role Variables
