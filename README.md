@@ -16,6 +16,7 @@ Example playbook:
 
 ```yaml
 - hosts: yourhost
+  become: yes
 
   collections:
     - alsuo.xray
