@@ -6,7 +6,7 @@
 ansible-galaxy collection install git+https://github.com/alsuo/ansible-xray.git
 ```
 
-## Role: `xray_core`
+## Role: `alsuo.xray.xray_core`
 
 Installs and configures the latest [xray-core](https://github.com/XTLS/Xray-core).
 
@@ -37,7 +37,7 @@ Example playbook:
           - ... your routing rules here ...
 
   roles:
-    - xray_core
+    - alsuo.xray.xray_core
 ```
 
 ### Role Variables
