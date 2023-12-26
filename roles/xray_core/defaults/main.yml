@@ -1,3 +1,4 @@
+xray_enabled: true
 xray_user: xray
 xray_group: xray
 xray_assets_dir: /usr/local/share/xray

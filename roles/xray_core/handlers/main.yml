@@ -3,3 +3,4 @@
   ansible.builtin.service:
     name: xray
     state: restarted
+  when: xray_enabled

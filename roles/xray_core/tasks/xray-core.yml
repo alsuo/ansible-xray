@@ -66,10 +66,11 @@
   notify:
     - restart xray service
 
-- name: enable xray service
-  ansible.builtin.systemd:
+- name: enable/disable xray service
+  ansible.builtin.systemd_service:
     name: xray
-    enabled: yes
+    enabled: "{{ xray_enabled }}"
+    state: "{{ xray_enabled|ternary('started', 'stopped') }}"
     daemon_reload: yes
 
 - name: configure xray

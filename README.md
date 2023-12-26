@@ -43,6 +43,9 @@ Example playbook:
 ### Role Variables
 
 ```yaml
+# Enable/disable xray service
+xray_enabled: true
+
 # The user running xray
 xray_user: xray
 
